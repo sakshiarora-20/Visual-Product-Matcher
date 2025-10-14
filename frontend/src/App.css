@@ -1,48 +1,335 @@
+/* ------------------- Fonts & Global Styles ------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
 body {
-  font-family: "Arial", sans-serif;
-  background: #f4f4f9;
+  font-family: 'Inter', sans-serif;
   margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background: linear-gradient(270deg, #e0f2fe, #f0f4ff, #dbeafe);
+  background-size: 600% 600%;
+  animation: gradientShift 12s ease infinite;
+  color: #1e293b;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ------------------- App Container ------------------- */
+.app-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
   text-align: center;
 }
 
-h1 {
-  color: #333;
+/* ------------------- Title ------------------- */
+.title {
+  font-size: 3.2rem;
+  font-weight: 800;
+  color: #2563eb;
+  margin-bottom: 50px;
+  letter-spacing: 1px;
+  text-shadow: 2px 2px 6px rgba(0,0,0,0.1);
 }
 
+/* ------------------- Upload Section ------------------- */
 .upload-section {
-  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
+  margin-bottom: 60px;
 }
 
-button {
-  background-color: #3f51b5;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 8px;
+.upload-box {
+  border: 2px dashed #2563eb;
+  padding: 30px;
+  width: 360px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.25);
+  backdrop-filter: blur(10px);
+  font-size: 1rem;
   cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
 }
 
-button:hover {
-  background-color: #2c3e9f;
+.upload-box:hover {
+  background: rgba(37,99,235,0.1);
+  box-shadow: 0 0 20px rgba(37,99,235,0.35);
 }
 
-.product-grid {
+.upload-section input[type="file"] {
+  display: none;
+}
+
+.upload-section input[type="text"] {
+  padding: 15px 18px;
+  width: 360px;
+  border-radius: 15px;
+  border: none;
+  background: rgba(255,255,255,0.25);
+  backdrop-filter: blur(10px);
+  font-size: 1rem;
+  color: #1e293b;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+.upload-section input[type="text"]:hover {
+  box-shadow: 0 12px 25px rgba(37,99,235,0.25);
+}
+
+.upload-section .divider {
+  font-weight: 600;
+  color: #475569;
+}
+
+.upload-section button {
+  padding: 15px 30px;
+  border: none;
+  border-radius: 15px;
+  font-size: 1rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #2563eb, #1e40af);
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 25px rgba(37,99,235,0.3);
+}
+
+.upload-section button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 35px rgba(37,99,235,0.5);
+}
+
+.upload-section button:disabled {
+  background: #94a3b8;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* ------------------- Preview Card ------------------- */
+.preview-card {
+  margin: 30px 0;
+  padding: 30px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.3);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+  transition: all 0.4s ease;
+}
+
+.preview-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 50px rgba(37,99,235,0.2);
+}
+
+.preview-card img {
+  max-width: 350px;
+  border-radius: 15px;
+  margin: 20px 0;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+  transition: transform 0.3s ease;
+}
+
+.preview-card img:hover {
+  transform: scale(1.03);
+}
+
+.category-badge {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  background: linear-gradient(135deg, #2563eb, #1e40af);
+  color: white;
+  margin-top: 10px;
+}
+
+/* ------------------- Slider ------------------- */
+.slider-container {
+  margin-top: 25px;
+}
+
+.slider-container input[type="range"] {
+  width: 320px;
+  accent-color: #2563eb;
+}
+
+/* ------------------- Results Section ------------------- */
+.results-section {
+  margin-top: 50px;
+}
+
+.results-section h2 {
+  margin-bottom: 30px;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #2563eb;
+  letter-spacing: 0.5px;
+}
+
+/* ------------------- Results Grid ------------------- */
+.results-grid {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  margin-top: 20px;
+  gap: 25px;
 }
 
-.product-card {
-  background: white;
-  border-radius: 10px;
-  margin: 10px;
-  width: 180px;
-  padding: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+/* ------------------- Result Card ------------------- */
+.result-card {
+  background: rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  width: 220px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 10px 20px rgba(37,99,235,0.15),
+              inset 2px 2px 6px rgba(255,255,255,0.4),
+              inset -2px -2px 6px rgba(0,0,0,0.05);
+  border: 1px solid rgba(255,255,255,0.4);
+  transition: all 0.4s ease;
 }
 
-.product-card img {
-  width: 100%;
-  border-radius: 8px;
+.result-card:hover {
+  transform: translateY(-7px) scale(1.05);
+  box-shadow: 0 20px 40px rgba(37,99,235,0.35);
 }
+
+.result-card img {
+  max-width: 180px;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  transition: transform 0.3s ease;
+}
+
+.result-card img:hover {
+  transform: scale(1.05);
+}
+
+.result-card p {
+  margin: 4px 0;
+  font-size: 0.95rem;
+  color: #1e293b;
+}
+
+.result-card p:first-of-type {
+  font-weight: 700;
+  color: #1e40af;
+}
+
+/* ------------------- Responsive ------------------- */
+@media (max-width: 768px) {
+  .upload-box,
+  .upload-section input[type="text"] {
+    width: 90%;
+  }
+
+  .preview-card img,
+  .result-card img {
+    max-width: 90%;
+  }
+
+  .results-grid {
+    gap: 20px;
+  }
+}
+/* ------------------- Global Theme Variables ------------------- */
+:root {
+  --primary: #2563eb;
+  --primary-dark: #1e40af;
+  --text: #1e293b;
+  --bg-gradient: linear-gradient(270deg, #e0f2fe, #f0f4ff, #dbeafe);
+  --card-bg: rgba(255, 255, 255, 0.35);
+  --card-border: rgba(255, 255, 255, 0.4);
+  --loader-bg: #e0e7ff;
+}
+
+body[data-theme="dark"] {
+  --primary: #60a5fa;
+  --primary-dark: #1e3a8a;
+  --text: #f8fafc;
+  --bg-gradient: linear-gradient(270deg, #0f172a, #1e293b, #111827);
+  --card-bg: rgba(30, 41, 59, 0.6);
+  --card-border: rgba(255, 255, 255, 0.1);
+  --loader-bg: #334155;
+}
+
+body {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  min-height: 100vh;
+  background: var(--bg-gradient);
+  background-size: 600% 600%;
+  animation: gradientShift 12s ease infinite;
+  color: var(--text);
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ------------------- Navbar ------------------- */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 18px 30px;
+  background: var(--card-bg);
+  backdrop-filter: blur(12px);
+  border-radius: 16px;
+  margin-bottom: 40px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+.nav-title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--primary);
+  margin: 0 auto;
+}
+
+.toggle-btn {
+  position: absolute;
+  right: 25px;
+  padding: 10px 16px;
+  border-radius: 12px;
+  border: none;
+  background: var(--card-bg);
+  color: var(--text);
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.toggle-btn:hover {
+  background: var(--primary);
+  color: #fff;
+}
+
+/* ------------------- App Container ------------------- */
+.app-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+}
+
+/* (keep previous upload-section, preview-card, results styling from before) */

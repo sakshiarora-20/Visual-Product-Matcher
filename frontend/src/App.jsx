@@ -74,7 +74,6 @@ const App = () => {
 
   return (
     <div className="app-container">
-      {/* Navbar */}
       <nav className="navbar">
         <motion.h1
           className="nav-title"
@@ -92,7 +91,6 @@ const App = () => {
         </motion.button>
       </nav>
 
-      {/* Upload Section */}
       <motion.div
         className="upload-section"
         initial={{ opacity: 0 }}
@@ -141,8 +139,6 @@ const App = () => {
           )}
         </motion.button>
       </motion.div>
-
-      {/* Preview Card */}
       {preview && (
         <div className="preview-card">
           <h3>Uploaded Image:</h3>
@@ -169,8 +165,6 @@ const App = () => {
           )}
         </div>
       )}
-
-      {/* Results Section */}
       {filteredResults.length > 0 && (
         <motion.div
           className="results-section"

@@ -8,9 +8,10 @@ import clip
 from PIL import Image
 import io
 import requests
+
 app = FastAPI()
 
-# Allow frontend requests
+# ------------------- CORS -------------------
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],  
@@ -19,23 +20,26 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Serve Images
+# ------------------- Serve Images -------------------
 IMAGES_DIR = "data/images/subset_550"
 app.mount("/images", StaticFiles(directory=IMAGES_DIR), name="images")
 
-# Load CLIP Model 
-device = "cuda" if torch.cuda.is_available() else "cpu"
+# ------------------- Load CLIP Model -------------------
+device = "cpu"  # CPU-only for low-memory deployment
 model, preprocess = clip.load("ViT-B/32", device=device)
 
-# Load Embeddings 
+# ------------------- Load Embeddings -------------------
 with open("data/embeddings.json", "r") as f:
     embeddings_dict = json.load(f)
 
 image_paths = list(embeddings_dict.keys())
-image_embeddings = np.array(list(embeddings_dict.values()), dtype=np.float32)
-image_embeddings = torch.tensor(image_embeddings).to(device)
+# Convert embeddings to float16 to save memory
+image_embeddings = torch.tensor(
+    np.array(list(embeddings_dict.values()), dtype=np.float16), 
+    device=device
+)
 
-# Load Metadata 
+# ------------------- Load Metadata -------------------
 with open("data/metadata_550.json", "r") as f:
     raw_metadata = json.load(f)
 
@@ -47,14 +51,15 @@ for key, value in raw_metadata.items():
         "name": value["name"]
     }
 
-# CLIP Category Embeddings 
+# ------------------- CLIP Category Embeddings -------------------
 category_list = list({v["category"] for v in metadata.values()})
 with torch.no_grad():
     text_inputs = clip.tokenize(category_list).to(device)
     category_text_embeddings = model.encode_text(text_inputs)
     category_text_embeddings /= category_text_embeddings.norm(dim=-1, keepdim=True)
+    category_text_embeddings = category_text_embeddings.to(torch.float16)  # Reduce precision
 
-# Helper Functions 
+# ------------------- Helper Functions -------------------
 def predict_category(image_embedding):
     image_embedding /= image_embedding.norm()
     similarities = (category_text_embeddings @ image_embedding.T).cpu().numpy().flatten()
@@ -80,10 +85,10 @@ def get_top_matches(query_embedding, query_category=None, min_score=0.0):
     results.sort(key=lambda x: x["score"], reverse=True)
     return results
 
-# API Routes 
+# ------------------- API Routes -------------------
 @app.get("/")
 def home():
-    return {"message": " Visual Product Matcher API is running!"}
+    return {"message": "Visual Product Matcher API is running!"}
 
 @app.post("/match")
 async def match_image(
@@ -106,17 +111,15 @@ async def match_image(
         except Exception as e:
             raise HTTPException(status_code=400, detail=f"Could not fetch image from URL: {e}")
 
-    # Preprocess image
+    # Preprocess and encode image
     image_input = preprocess(image).unsqueeze(0).to(device)
-
-    # Encode image
     with torch.no_grad():
-        image_embedding = model.encode_image(image_input)[0]
+        image_embedding = model.encode_image(image_input)[0].to(torch.float16)  # float16 for memory
 
     # Predict category
     predicted_category = predict_category(image_embedding)
 
-    # Get filtered matches
+    # Get top matches
     results = get_top_matches(image_embedding, query_category=predicted_category, min_score=min_score)
 
     return {

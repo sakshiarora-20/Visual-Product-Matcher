@@ -13,7 +13,9 @@ const App = () => {
   const [minScore, setMinScore] = useState(0.0);
   const [darkMode, setDarkMode] = useState(false);
 
-  const backendURL = "http://127.0.0.1:8000/match";
+  // Use environment variable for backend
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL; // Vite
+  const backendURL = `${BACKEND_URL}/match`;
 
   useEffect(() => {
     document.body.setAttribute("data-theme", darkMode ? "dark" : "light");
@@ -196,7 +198,7 @@ const App = () => {
                 }}
               >
                 <img
-                  src={`http://127.0.0.1:8000/images/${item.image}`}
+                  src={`${BACKEND_URL}/images/${item.image}`}
                   alt="match"
                 />
                 <p>Score: {item.score.toFixed(2)}</p>

@@ -8,7 +8,7 @@ A web application that allows users to upload an image or provide an image URL t
 Frontend hosted on **Vercel**:
 [https://visual-product-matcher-lemon-eight.vercel.app/](https://visual-product-matcher-lemon-eight.vercel.app/)
 
-> Note: Attempted deployment on Render and other free-tier services failed due to memory constraints.
+> Note: Attempted backend  deployment on Render and other free-tier services failed due to memory constraints.
 
 ## Features
 

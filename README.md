@@ -105,9 +105,5 @@ Visual-Product-Matcher/
 └─ README.md
 ```
 
-## Challenges
-
-* Hosting the backend on free-tier cloud services (Render, etc.) was not possible due to **Out of Memory (OOM)** errors.
-* Frontend successfully hosted on **Vercel**.
 
 
